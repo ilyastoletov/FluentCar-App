@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Fluent Car</string>
+    <string name="login"><u>Вход</u></string>
+    <string name="register"><u>Регистрация</u></string>
 </resources>

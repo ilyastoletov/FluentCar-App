@@ -6,7 +6,15 @@
     android:background="@color/white"
     android:layout_height="match_parent">
 
+    <include
+        android:id="@+id/offer_form_layout"
+        layout="@layout/offer_form"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <LinearLayout
+        android:id="@+id/address_form"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:padding="12dp"
@@ -83,8 +91,9 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/next_button"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="15dp"
             app:cardBackgroundColor="@color/brand_color_dark"
             app:cardCornerRadius="10dp"
             android:elevation="0dp">
@@ -96,6 +105,7 @@
                 android:layout_gravity="center"/>
 
         </androidx.cardview.widget.CardView>
+
 
     </LinearLayout>
 

@@ -12,7 +12,7 @@ val dataModule = module {
 
     single<Retrofit> {
         Retrofit.Builder()
-            .baseUrl("http://192.168.1.37:5000/")
+            .baseUrl("http://95.163.234.235:5000/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

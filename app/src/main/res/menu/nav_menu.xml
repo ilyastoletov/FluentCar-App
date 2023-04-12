@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/mapFragment"
+        android:title="Новая заявка"
+        android:icon="@drawable/baseline_add_location_24"
+        />
+
+    <item
+        android:id="@+id/myOffersFragment"
+        android:title="Мои заявки"
+        android:icon="@drawable/baseline_folder_24"
+        />
+
+    <item
+        android:id="@+id/searchFragment"
+        android:title="Поиск"
+        android:icon="@drawable/baseline_search_24"
+        />
+
+</menu>

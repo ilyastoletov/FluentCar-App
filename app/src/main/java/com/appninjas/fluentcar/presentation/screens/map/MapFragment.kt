@@ -1,9 +1,11 @@
 package com.appninjas.fluentcar.presentation.screens.map
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.PointF
+import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -14,9 +16,12 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import com.appninjas.domain.model.Offer
 import com.appninjas.fluentcar.R
 import com.appninjas.fluentcar.databinding.FragmentMapBinding
+import com.appninjas.fluentcar.presentation.utils.MapValidator
 import com.yandex.mapkit.MapKit
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
@@ -40,6 +45,7 @@ class MapFragment : Fragment() {
     private lateinit var locationMapKit: UserLocationLayer
 
     private var selectedPointer: PlacemarkMapObject? = null
+    private var userData: Offer? = null
 
     private lateinit var firstPointer: PlacemarkMapObject
     private lateinit var secondPointer: PlacemarkMapObject
@@ -56,6 +62,7 @@ class MapFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requestLocationPermission()
+        checkLocationEnabled()
         initializeMaps()
 
         viewModel.coordinates.observe(viewLifecycleOwner) { coords ->
@@ -98,6 +105,8 @@ class MapFragment : Fragment() {
     private fun initUI() {
         binding.firstAddressLineEditText.setOnKeyListener(onKeyListener)
         binding.secondAddressLineEditText.setOnKeyListener(onKeyListener)
+        binding.nextButton.setOnClickListener(proceedOfferClickListener)
+        binding.offerFormLayout.doneOfferButton.setOnClickListener(offerDoneClickListener)
     }
 
     private val onKeyListener = View.OnKeyListener { view, keyCode, event ->
@@ -110,6 +119,36 @@ class MapFragment : Fragment() {
             viewModel.convertAddressToCoordinates(editText.text.toString())
         }
         true
+    }
+
+    private val proceedOfferClickListener = View.OnClickListener { view ->
+        val validator = MapValidator(binding, requireContext())
+        if (validator.validateAddressFields()) {
+            if (validator.validateStatusRadioButtons()) {
+                userData = Offer(
+                    route = "${binding.firstAddressLineEditText.text} - ${binding.secondAddressLineEditText.text}",
+                    status = binding.driverRadio.isChecked,
+                    maxPassengers = 0,
+                    price = 0,
+                )
+                binding.addressForm.visibility = View.GONE
+                binding.offerFormLayout.root.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private val offerDoneClickListener = View.OnClickListener {view ->
+        val validator = MapValidator(binding, requireContext())
+        if (validator.validatePriceField()) {
+            if (validator.validatePassengersCount()) {
+                Toast.makeText(requireContext(), "Форма заполнена, ура!!", Toast.LENGTH_SHORT).show()
+                userData!!.apply {
+                    maxPassengers = binding.offerFormLayout.humanInCarLimitPassenger.text.toString().toInt()
+                    price = binding.offerFormLayout.costOfTripEditTextPassenger.text.toString().toInt()
+                }
+                Log.d("OFFER", userData.toString())
+            }
+        }
     }
 
     private val userLocationObjectListener = object : UserLocationObjectListener {
@@ -150,6 +189,13 @@ class MapFragment : Fragment() {
                 ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), 0)
             return
+        }
+    }
+
+    private fun checkLocationEnabled() {
+        val locationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            Toast.makeText(requireContext(), "Включите геолокацию для корректной работы приложения", Toast.LENGTH_SHORT).show()
         }
     }
 
