@@ -34,6 +34,9 @@ android {
 
 dependencies {
 
+    implementation project(path: ':data')
+    implementation project(path: ':domain')
+
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
@@ -43,6 +46,14 @@ dependencies {
 
     // Yandex Maps
     implementation 'com.yandex.android:maps.mobile:4.3.1-lite'
+
+    def koin_version = "3.3.3"
+    implementation "io.insert-koin:koin-android:$koin_version"
+
+    def retrofit_version = "2.9.0"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.10.0"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

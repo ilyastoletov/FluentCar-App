@@ -4,21 +4,19 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.PointF
-import android.location.Address
-import android.location.Geocoder
-import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.appninjas.fluentcar.R
 import com.appninjas.fluentcar.databinding.FragmentMapBinding
-import com.appninjas.fluentcar.presentation.utils.MyLocation
-import com.google.android.gms.location.LocationResult
-import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKit
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
@@ -31,7 +29,8 @@ import com.yandex.mapkit.user_location.UserLocationObjectListener
 import com.yandex.mapkit.user_location.UserLocationView
 import com.yandex.runtime.image.ImageProvider
 import com.yandex.runtime.ui_view.ViewProvider
-import java.util.Locale
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.Queue
 
 
 class MapFragment : Fragment() {
@@ -40,7 +39,12 @@ class MapFragment : Fragment() {
     private lateinit var mapView: MapView
     private lateinit var locationMapKit: UserLocationLayer
 
-    private val pointersCount = 0
+    private var selectedPointer: PlacemarkMapObject? = null
+
+    private lateinit var firstPointer: PlacemarkMapObject
+    private lateinit var secondPointer: PlacemarkMapObject
+
+    private val viewModel by viewModel<MapViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentMapBinding.inflate(inflater, container, false)
@@ -53,6 +57,21 @@ class MapFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         requestLocationPermission()
         initializeMaps()
+
+        viewModel.coordinates.observe(viewLifecycleOwner) { coords ->
+            changePlacemarkPosition(Point(coords["latitude"]!!, coords["longitude"]!!))
+        }
+
+        viewModel.address.observe(viewLifecycleOwner) { address ->
+            if (selectedPointer == firstPointer) {
+                binding.firstAddressLineEditText.setText(address, TextView.BufferType.EDITABLE)
+            } else {
+                binding.secondAddressLineEditText.setText(address, TextView.BufferType.EDITABLE)
+            }
+        }
+
+        createPointers()
+        initUI()
     }
 
     private fun initializeMaps() {
@@ -62,14 +81,35 @@ class MapFragment : Fragment() {
             isVisible = true
             setObjectListener(userLocationObjectListener)
         }
-        /*if (locationMapKit.cameraPosition() != null) {
-            mapView.map.move(
-                locationMapKit.cameraPosition()!!,
-                Animation(Animation.Type.SMOOTH, 0.0f),
-                null
-            )
-        }*/
         mapView.map.addInputListener(mapInputListener)
+    }
+
+    private fun createPointers() {
+        val pointerView = View(requireContext()).apply {
+            background = requireActivity().getDrawable(R.drawable.baseline_location_on_24)
+        }
+        firstPointer = mapView.map.mapObjects.addPlacemark(Point(0.0, 0.0), ViewProvider(pointerView))
+        firstPointer.isVisible = false
+        secondPointer = mapView.map.mapObjects.addPlacemark(Point(0.0, 0.0), ViewProvider(pointerView))
+        secondPointer.isVisible = false
+        selectedPointer = firstPointer
+    }
+
+    private fun initUI() {
+        binding.firstAddressLineEditText.setOnKeyListener(onKeyListener)
+        binding.secondAddressLineEditText.setOnKeyListener(onKeyListener)
+    }
+
+    private val onKeyListener = View.OnKeyListener { view, keyCode, event ->
+        if (event.action == KeyEvent.ACTION_DOWN || keyCode == KeyEvent.KEYCODE_ENTER) {
+            val editText: EditText = if (view.id == binding.firstAddressLineEditText.id) {
+                binding.firstAddressLineEditText
+            } else {
+                binding.secondAddressLineEditText
+            }
+            viewModel.convertAddressToCoordinates(editText.text.toString())
+        }
+        true
     }
 
     private val userLocationObjectListener = object : UserLocationObjectListener {
@@ -115,17 +155,30 @@ class MapFragment : Fragment() {
 
     private val mapInputListener = object : InputListener {
         override fun onMapTap(map: Map, point: Point) {
-            val pointerView = View(requireContext()).apply {
-                background = requireActivity().getDrawable(R.drawable.baseline_location_on_24)
-            }
-            val geocoder = Geocoder(requireContext(), Locale.ENGLISH)
-            val marker = mapView.map.mapObjects.addPlacemark(point, ViewProvider(pointerView))
-            marker.isVisible = true
-            marker.userData = "${point.latitude} : ${point.longitude}"
+            viewModel.convertCoordinatesToAddress(point.latitude, point.longitude)
+            changePlacemarkPosition(point)
         }
 
         override fun onMapLongTap(map: Map, point: Point) {
             Log.d("FUCK", "I'm no need to implement this")
+        }
+    }
+
+    private fun changePlacemarkPosition(point: Point) {
+        if (selectedPointer == firstPointer) {
+            Log.d("MAP", "selected pointer: first")
+            firstPointer.apply {
+                geometry = point
+                isVisible = true
+            }
+            selectedPointer = secondPointer
+        } else if (selectedPointer == secondPointer) {
+            Log.d("MAP", "selected pointer: second")
+            secondPointer.apply {
+                geometry = point
+                isVisible = true
+            }
+            selectedPointer = firstPointer
         }
     }
 
@@ -142,6 +195,7 @@ class MapFragment : Fragment() {
     }
 
     override fun onDestroy() {
+        selectedPointer = null
         mapView.map.removeInputListener(mapInputListener)
         super.onDestroy()
     }
