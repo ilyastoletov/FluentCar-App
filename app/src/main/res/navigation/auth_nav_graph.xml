@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/auth_nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.appninjas.fluentcar.presentation.screens.registration.RegistrationFragment"
+        tools:layout="@layout/fragment_registration"
+        android:label="RegitrationFragment" />
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.appninjas.fluentcar.presentation.screens.login.LoginFragment"
+        tools:layout="@layout/fragment_login"
+        android:label="LoginFragment"/>
+
+</navigation>

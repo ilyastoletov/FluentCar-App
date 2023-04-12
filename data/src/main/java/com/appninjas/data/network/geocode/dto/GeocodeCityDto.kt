@@ -1,4 +1,4 @@
-package com.appninjas.data.network.dto
+package com.appninjas.data.network.geocode.dto
 
 import com.google.gson.annotations.SerializedName
 

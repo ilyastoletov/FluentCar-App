@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -46,6 +47,7 @@ dependencies {
 
     // Yandex Maps
     implementation 'com.yandex.android:maps.mobile:4.3.1-lite'
+    implementation 'com.google.firebase:firebase-auth-ktx:21.0.3'
 
     def koin_version = "3.3.3"
     implementation "io.insert-koin:koin-android:$koin_version"

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "163117642021",
+    "project_id": "fluent-car-bfc20",
+    "storage_bucket": "fluent-car-bfc20.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:163117642021:android:4405dd0db372399d5c2acc",
+        "android_client_info": {
+          "package_name": "com.appninjas.fluentcar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "163117642021-8djs98kku16vif3atu69dhkt76cfuafq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdKIv7cj7FqM-eaujhXeyfeL6L9m5aGp0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "163117642021-8djs98kku16vif3atu69dhkt76cfuafq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

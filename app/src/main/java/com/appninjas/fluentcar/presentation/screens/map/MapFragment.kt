@@ -62,7 +62,6 @@ class MapFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requestLocationPermission()
-        checkLocationEnabled()
         initializeMaps()
 
         viewModel.coordinates.observe(viewLifecycleOwner) { coords ->
@@ -189,13 +188,6 @@ class MapFragment : Fragment() {
                 ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), 0)
             return
-        }
-    }
-
-    private fun checkLocationEnabled() {
-        val locationManager = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            Toast.makeText(requireContext(), "Включите геолокацию для корректной работы приложения", Toast.LENGTH_SHORT).show()
         }
     }
 

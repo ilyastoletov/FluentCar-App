@@ -1,7 +1,7 @@
 package com.appninjas.data.repository
 
 import android.util.Log
-import com.appninjas.data.network.service.GeocodeApiService
+import com.appninjas.data.network.geocode.service.GeocodeApiService
 import com.appninjas.domain.model.Geocode
 import com.appninjas.domain.repository.GeocodeRepository
 import retrofit2.HttpException

@@ -1,7 +1,7 @@
-package com.appninjas.data.network.service
+package com.appninjas.data.network.geocode.service
 
-import com.appninjas.data.network.dto.GeocodeCityDto
-import com.appninjas.data.network.dto.GeocodeCoordsDto
+import com.appninjas.data.network.geocode.dto.GeocodeCityDto
+import com.appninjas.data.network.geocode.dto.GeocodeCoordsDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
