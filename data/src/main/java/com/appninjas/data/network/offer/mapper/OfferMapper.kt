@@ -10,12 +10,23 @@ class OfferMapper {
     fun offerToOfferDto(offer: Offer, user: User): OfferDto = OfferDto(
         offer_id = Random.nextInt(),
         price = offer.price,
-        route = offer.route,
+        route = offer.route.replace("Россия, ", ""),
         maxPassenger = offer.maxPassengers,
         status = offer.status,
         name = user.name,
         phone = user.phone,
         userEmail = user.email
     )
+
+    fun offerDtoListToOfferList(dtoList: List<OfferDto>): List<Offer> = dtoList.map { dto -> Offer(
+        price = dto.price,
+        route = dto.route,
+        status = dto.status,
+        maxPassengers = dto.maxPassenger.toInt(),
+        responseCount = dto.responses.toInt(),
+        respondentsList = dto.respondents,
+        driverName = dto.name,
+        driverPhone = dto.phone
+    ) }
 
 }

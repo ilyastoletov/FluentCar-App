@@ -4,13 +4,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.appninjas.domain.model.Offer
+import com.appninjas.domain.usecase.CreateOfferUseCase
 import com.appninjas.domain.usecase.GeocodeCoordinatesToAdressUseCase
 import com.appninjas.domain.usecase.ReverseGeocodeUseCase
 import com.appninjas.fluentcar.presentation.utils.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MapViewModel(private val geocodeCoordinatesToAdressUseCase: GeocodeCoordinatesToAdressUseCase, private val reverseGeocodeUseCase: ReverseGeocodeUseCase) : ViewModel() {
+class MapViewModel(private val geocodeCoordinatesToAdressUseCase: GeocodeCoordinatesToAdressUseCase,
+                   private val reverseGeocodeUseCase: ReverseGeocodeUseCase,
+                   private val createOfferUseCase: CreateOfferUseCase) : ViewModel() {
 
     private val _address: MutableLiveData<String> = MutableLiveData()
     val address: LiveData<String> = _address
@@ -32,6 +36,12 @@ class MapViewModel(private val geocodeCoordinatesToAdressUseCase: GeocodeCoordin
         viewModelScope.launch(Dispatchers.IO) {
             val result = geocodeCoordinatesToAdressUseCase.invoke(lat, lon)
             _address.postValue(result.address)
+        }
+    }
+
+    fun createOffer(offer: Offer) {
+        viewModelScope.launch(Dispatchers.IO) {
+            createOfferUseCase.invoke(offer)
         }
     }
 

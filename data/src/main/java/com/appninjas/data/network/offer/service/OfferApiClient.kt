@@ -15,6 +15,12 @@ interface OfferApiClient {
     suspend fun createOffer(@Body offerBody: OfferDto)
 
     @GET("/getUserData")
-    suspend fun getCurrentUserData(@Query("user_email") userMail: String): UserDto
+    suspend fun getCurrentUserData(@Query("user_mail") userMail: String): UserDto
+
+    @GET("/getAllOffers")
+    suspend fun getAllOffers(): List<OfferDto>
+
+    @POST("/applyToOffer")
+    suspend fun respondOffer(@Query("offer_route") offerRoute: String, @Body userBody: UserDto)
 
 }

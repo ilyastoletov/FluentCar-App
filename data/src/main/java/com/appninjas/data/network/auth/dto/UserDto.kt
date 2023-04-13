@@ -1,5 +1,6 @@
 package com.appninjas.data.network.auth.dto
 
+import com.appninjas.data.network.offer.dto.OfferDto
 import com.appninjas.domain.model.Offer
 
 data class UserDto(
@@ -7,6 +8,6 @@ data class UserDto(
     val email: String,
     val name: String,
     val password: String,
-    val offers: List<Offer> = listOf(),
+    val offers: List<OfferDto> = listOf(),
     val responded: List<Int> = listOf()
 )

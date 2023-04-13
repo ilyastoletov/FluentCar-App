@@ -1,9 +1,6 @@
 package com.appninjas.fluentcar.presentation.di
 
-import com.appninjas.domain.usecase.GeocodeCoordinatesToAdressUseCase
-import com.appninjas.domain.usecase.LoginUseCase
-import com.appninjas.domain.usecase.RegisterUseCase
-import com.appninjas.domain.usecase.ReverseGeocodeUseCase
+import com.appninjas.domain.usecase.*
 import org.koin.dsl.module
 
 val domainModule = module {
@@ -22,4 +19,21 @@ val domainModule = module {
     factory {
         LoginUseCase(repository = get())
     }
+
+    factory {
+        CreateOfferUseCase(repository = get())
+    }
+
+    factory {
+        GetMyOffersUseCase(repository = get())
+    }
+
+    factory {
+        SearchOfferUseCase(repository = get())
+    }
+
+    factory {
+        RespontOfferUseCase(repository = get())
+    }
+
 }

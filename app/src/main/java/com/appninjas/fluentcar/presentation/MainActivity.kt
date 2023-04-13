@@ -17,6 +17,7 @@ import com.appninjas.fluentcar.databinding.ActivityMainBinding
 import com.appninjas.fluentcar.presentation.activities.AuthenticationActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.messaging.FirebaseMessaging
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,11 +27,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        checkLocationEnabled()
-        //checkNetworkAvailability()
-        setSupportActionBar(binding.toolbar)
         checkLogin()
+        checkLocationEnabled()
+        setSupportActionBar(binding.toolbar)
         initBottomNavView()
+        subscribeToUserTopic()
     }
 
     private fun initBottomNavView() {
@@ -52,19 +53,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun subscribeToUserTopic() {
+        val firebaseAuth = FirebaseAuth.getInstance()
+        if (firebaseAuth.currentUser?.email != null) {
+            FirebaseMessaging.getInstance().subscribeToTopic(firebaseAuth.currentUser!!.email!!.replace("@", "").replace(".", ""))
+        }
+    }
+
     private fun checkLocationEnabled() {
         val locationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             Toast.makeText(this@MainActivity, "Включите геолокацию для корректной работы приложения", Toast.LENGTH_SHORT).show()
         }
     }
-
-    /*private fun checkNetworkAvailability() {
-        val connectivityManager: ConnectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val capability = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-        if (capability?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)) {
-            Toast.makeText(this@MainActivity, "Нет соединения с интернетом, приложение будет работать некорректно", Toast.LENGTH_SHORT).show()
-        }
-    }*/
 
 }

@@ -1,7 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/offers_searchView"
+        android:layout_width="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:queryHint="Введите маршрут"
+        android:layout_marginTop="5dp"
+        android:layout_height="50dp"
+        android:background="@drawable/custom_input"/>
+
+    <RadioGroup
+        android:id="@+id/search_status_radio_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:paddingTop="5dp">
+
+        <RadioButton
+            android:id="@+id/driver_radio_search"
+            android:layout_width="140dp"
+            android:layout_height="35dp"
+            android:button="@android:color/transparent"
+            android:background="@drawable/radio_selector"
+            android:textColor="@drawable/radio_text_selector"
+            android:padding="10dp"
+            android:textSize="12.5sp"
+            android:text="Пассажира"
+            android:textAlignment="center"/>
+
+        <RadioButton
+            android:id="@+id/passenger_radio_search"
+            android:layout_width="140dp"
+            android:layout_height="35dp"
+            android:button="@android:color/transparent"
+            android:background="@drawable/radio_selector"
+            android:textColor="@drawable/radio_text_selector"
+            android:padding="10dp"
+            android:layout_marginStart="20dp"
+            android:textSize="12.5sp"
+            android:text="Водителя"
+            android:textAlignment="center"/>
+
+    </RadioGroup>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/darker_gray"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/foreigners_offers_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    </ScrollView>
+
+</LinearLayout>

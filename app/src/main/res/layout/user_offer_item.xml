@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/route_header_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="200dp"
+        android:text="Самара - Тольятти"
+        android:fontFamily="@font/bold"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        />
+
+    <TextView
+        android:id="@+id/price_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Цена: 652 ₽"
+        android:fontFamily="@font/medium"
+        android:textColor="@color/grey_text_color"
+        android:textSize="13sp"
+        />
+
+    <TextView
+        android:id="@+id/max_passengers_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Макс. пассажиров: 1"
+        android:fontFamily="@font/medium"
+        android:textColor="@color/grey_text_color"
+        android:textSize="13sp"
+        />
+
+    <TextView
+        android:id="@+id/status_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Статус: Пассажир"
+        android:fontFamily="@font/medium"
+        android:textColor="@color/grey_text_color"
+        android:textSize="13sp"
+        />
+
+    <TextView
+        android:id="@+id/responses_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Откликов: 0"
+        android:fontFamily="@font/medium"
+        android:textColor="@color/grey_text_color"
+        android:textSize="13sp"
+        />
+
+    </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/show_respondents_button"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="15dp"
+            app:cardBackgroundColor="@color/brand_color_dark"
+            app:cardCornerRadius="10dp">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/baseline_arrow_downward_24"
+                android:layout_gravity="center"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/hide_respondents_button"
+            android:visibility="gone"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="15dp"
+            app:cardBackgroundColor="@color/brand_color_dark"
+            app:cardCornerRadius="10dp">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/baseline_arrow_upward_24"
+                android:layout_gravity="center"/>
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/respondents_recyclerView"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+
+</LinearLayout>

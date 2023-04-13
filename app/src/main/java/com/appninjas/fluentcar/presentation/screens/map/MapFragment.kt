@@ -18,6 +18,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.appninjas.domain.model.Offer
 import com.appninjas.fluentcar.R
 import com.appninjas.fluentcar.databinding.FragmentMapBinding
@@ -140,12 +141,13 @@ class MapFragment : Fragment() {
         val validator = MapValidator(binding, requireContext())
         if (validator.validatePriceField()) {
             if (validator.validatePassengersCount()) {
-                Toast.makeText(requireContext(), "Форма заполнена, ура!!", Toast.LENGTH_SHORT).show()
                 userData!!.apply {
                     maxPassengers = binding.offerFormLayout.humanInCarLimitPassenger.text.toString().toInt()
                     price = binding.offerFormLayout.costOfTripEditTextPassenger.text.toString().toInt()
                 }
-                Log.d("OFFER", userData.toString())
+                viewModel.createOffer(userData!!)
+                findNavController().navigate(R.id.myOffersFragment)
+                Toast.makeText(context, "Заявка успешно создана", Toast.LENGTH_SHORT).show()
             }
         }
     }

@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.appninjas.fluentcar"
-        minSdk 24
+        minSdk 26
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -48,6 +48,8 @@ dependencies {
     // Yandex Maps
     implementation 'com.yandex.android:maps.mobile:4.3.1-lite'
     implementation 'com.google.firebase:firebase-auth-ktx:21.0.3'
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.0.3'
+    implementation 'com.google.firebase:firebase-analytics-ktx:20.1.2'
 
     def koin_version = "3.3.3"
     implementation "io.insert-koin:koin-android:$koin_version"
