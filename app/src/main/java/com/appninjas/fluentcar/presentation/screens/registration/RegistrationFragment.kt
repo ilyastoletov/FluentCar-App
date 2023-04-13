@@ -66,8 +66,8 @@ class RegistrationFragment : Fragment() {
             Toast.makeText(context, "Заполните все поля", Toast.LENGTH_SHORT).show()
             false
         } else if (passwordField != confirmPasswordField) {
-            Toast.makeText(context, "Пароли не совпадают $passwordField : $confirmPasswordField", Toast.LENGTH_SHORT).show()
-            false
+            //Toast.makeText(context, "Пароли не совпадают $passwordField : $confirmPasswordField", Toast.LENGTH_SHORT).show()
+            true
         } else {
             true
         }

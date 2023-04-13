@@ -1,5 +1,6 @@
 package com.appninjas.data.repository
 
+import android.util.Log
 import com.appninjas.data.network.auth.mapper.UserMapper
 import com.appninjas.data.network.auth.service.AuthApiService
 import com.appninjas.domain.model.User
@@ -28,6 +29,7 @@ class AuthRepoImpl(private val firebaseAuth: FirebaseAuth,
                 onSuccess()
             } else {
                 onFailure()
+                Log.d("EX", it.exception.toString())
             }
         }
     }
